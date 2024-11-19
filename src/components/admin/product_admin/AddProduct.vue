@@ -58,7 +58,7 @@ const addProduct = async () => {
   });
   if (res.status === 200) {
     showSuccess(toast, "Thêm Sản Phẩm,Thành Công");
-    resetForm("form_add");
+    // resetForm("form_add");
   } else {
     showError(toast, "Thêm Sản Phẩm Thất Bại, Hãy Thử Lại");
   }
@@ -105,6 +105,7 @@ onMounted(async () => {
 </script>
 
 <template>
+  <Toast/>
   <div class="text-2xl font-bold">Thêm Sản Phẩm Mới</div>
   <Stepper value="1">
     <StepList>

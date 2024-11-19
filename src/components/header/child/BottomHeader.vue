@@ -1,13 +1,26 @@
+<script setup>
+import {ref, onMounted} from "vue";
+import api from "@/services/ApiService.js";
+
+const categories = ref([]);
+onMounted(async () => {
+  const response = await api.get("parent_category/with-children");
+  categories.value = response.data;
+  console.log(categories.value);
+});
+</script>
 <template>
   <div
-      class="bb-main-menu-desk bg-[#fff] py-[5px] border-t-[1px] border-solid border-[#eee] max-[991px]:hidden">
+      class="bb-main-menu-desk bg-[#fff] py-[5px] border-t-[1px] border-solid border-[#eee] max-[991px]:hidden"
+  >
     <div
         class="flex flex-wrap justify-between relative items-center mx-auto min-[1400px]:max-w-[1320px] min-[1200px]:max-w-[1140px] min-[992px]:max-w-[960px] min-[768px]:max-w-[720px] min-[576px]:max-w-[540px]"
     >
       <div class="flex flex-wrap w-full">
         <div class="w-full px-[12px]">
           <div
-              class="bb-inner-menu-desk flex max-[1199px]:relative max-[991px]:justify-between">
+              class="bb-inner-menu-desk flex max-[1199px]:relative max-[991px]:justify-between"
+          >
             <button
                 class="navbar-toggler shadow-none hidden"
                 type="button"
@@ -24,12 +37,13 @@
                 id="navbarSupportedContent"
             >
               <ul class="navbar-nav flex flex-wrap flex-row">
-
                 <li
-                    class="nav-item bb-main-dropdown flex items-center mr-[45px]">
+                    class="nav-item bb-main-dropdown flex items-center mr-[45px]"
+                >
                   <a
                       href="javascript:void(0)"
-                      class="bb-header-btn bb-sidebar-toggle bb-category-toggle transition-all duration-[0.3s] ease-in-out h-[45px] w-[45px] mr-[10px] p-[8px] flex items-center justify-center bg-[#fff] border-[1px] border-solid border-[#eee] rounded-[10px] relative max-[767px]:m-[0] max-[575px]:hidden">
+                      class="bb-header-btn bb-sidebar-toggle bb-category-toggle transition-all duration-[0.3s] ease-in-out h-[45px] w-[45px] mr-[10px] p-[8px] flex items-center justify-center bg-[#fff] border-[1px] border-solid border-[#eee] rounded-[10px] relative max-[767px]:m-[0] max-[575px]:hidden"
+                  >
                     <svg
                         class="svg-icon w-[25px] h-[25px]"
                         viewBox="0 0 1024 1024"
@@ -40,185 +54,42 @@
                           class="fill-[#6c7fd8]"
                           d="M384 928H192a96 96 0 0 1-96-96V640a96 96 0 0 1 96-96h192a96 96 0 0 1 96 96v192a96 96 0 0 1-96 96zM192 608a32 32 0 0 0-32 32v192a32 32 0 0 0 32 32h192a32 32 0 0 0 32-32V640a32 32 0 0 0-32-32H192zM784 928H640a96 96 0 0 1-96-96V640a96 96 0 0 1 96-96h192a96 96 0 0 1 96 96v144a32 32 0 0 1-64 0V640a32 32 0 0 0-32-32H640a32 32 0 0 0-32 32v192a32 32 0 0 0 32 32h144a32 32 0 0 1 0 64zM384 480H192a96 96 0 0 1-96-96V192a96 96 0 0 1 96-96h192a96 96 0 0 1 96 96v192a96 96 0 0 1-96 96zM192 160a32 32 0 0 0-32 32v192a32 32 0 0 0 32 32h192a32 32 0 0 0 32-32V192a32 32 0 0 0-32-32H192zM832 480H640a96 96 0 0 1-96-96V192a96 96 0 0 1 96-96h192a96 96 0 0 1 96 96v192a96 96 0 0 1-96 96zM640 160a32 32 0 0 0-32 32v192a32 32 0 0 0 32 32h192a32 32 0 0 0 32-32V192a32 32 0 0 0-32-32H640z"
                       />
-
                     </svg>
                   </a>
                   <a
                       class="nav-link bb-dropdown-item font-Poppins relative p-[0] leading-[28px] text-[15px] font-medium text-[#3d4750] block tracking-[0.03rem]"
                       href="javascript:void(0)"
-                  >Danh Mục Sản Phẩm</a>
+                  >Danh Mục Sản Phẩm</a
+                  >
                   <ul
-                      class="mega-menu min-w-full transition-all duration-[0.3s] ease-in-out mt-[25px] pl-[30px] absolute top-[40px] z-[16] text-left opacity-[0] invisible left-[0] right-[auto] bg-[#fff] border-[1px] border-solid border-[#eee] flex flex-col rounded-[10px]">
-                    <li class="m-[0] flex items-center">
+                      style="margin-top: 6px!important"
+                      class="mega-menu min-w-full transition-all duration-[0.3s] ease-in-out mt-[25px] pl-[30px] absolute top-[40px] z-[16] text-left opacity-[0] invisible left-[0] right-[auto] bg-[#fff] border-[1px] border-solid border-[#eee] flex flex-wrap rounded-[10px] max-h-[70vh] overflow-y-auto">
+                    <li class="m-[0] flex flex-wrap items-start w-full">
                       <ul
-                          class="mega-block w-[calc(25%-30px)] mr-[30px] py-[15px]"
+                          v-for="category in categories"
+                          :key="category.id"
+                          class="mega-block w-1/4 px-[15px] py-[15px]"
                       >
                         <li
                             class="menu_title border-b-[1px] border-solid border-[#eee] mb-[10px] pb-[5px] flex items-center leading-[28px]"
                         >
-                          <a
-                              href="javascript:void(0)"
+                          <router-link
+                              :to="`/category/${category.id}/products`"
                               class="transition-all duration-[0.3s] ease-in-out font-Poppins h-[auto] text-[#6c7fd8] text-[15px] font-medium tracking-[0.03rem] block py-[10px] leading-[22px] capitalize"
-                          >Phụ Kiện Di Động</a
+                          >{{ category.name }}
+                          </router-link
                           >
                         </li>
-                        <li class="flex items-center leading-[28px]">
-                          <a
-                              class="transition-all duration-[0.3s] ease-in-out font-Poppins py-[10px] leading-[22px] text-[14px] font-normal tracking-[0.03rem] text-[#686e7d] hover:text-[#6c7fd8] capitalize"
-                          >Sạc</a
-                          >
-                        </li>
-                        <li class="flex items-center leading-[28px]">
-                          <a
-                              class="transition-all duration-[0.3s] ease-in-out font-Poppins py-[10px] leading-[22px] text-[14px] font-normal tracking-[0.03rem] text-[#686e7d] hover:text-[#6c7fd8] capitalize"
-                          >Cường Lực</a
-                          >
-                        </li>
-                        <li class="flex items-center leading-[28px]">
-                          <a
-                              class="transition-all duration-[0.3s] ease-in-out font-Poppins py-[10px] leading-[22px] text-[14px] font-normal tracking-[0.03rem] text-[#686e7d] hover:text-[#6c7fd8] capitalize"
-                          >Cường Lực</a
-                          >
-                        </li>
-                        <li class="flex items-center leading-[28px]">
-                          <a
-                              class="transition-all duration-[0.3s] ease-in-out font-Poppins py-[10px] leading-[22px] text-[14px] font-normal tracking-[0.03rem] text-[#686e7d] hover:text-[#6c7fd8] capitalize"
-                          >Cường Lực</a
-                          >
-                        </li>
-                        <li class="flex items-center leading-[28px]">
-                          <a
-                              class="transition-all duration-[0.3s] ease-in-out font-Poppins py-[10px] leading-[22px] text-[14px] font-normal tracking-[0.03rem] text-[#686e7d] hover:text-[#6c7fd8] capitalize"
-                          >Cường Lực</a
-                          >
-                        </li>
-                      </ul>
-                      <ul
-                          class="mega-block w-[calc(25%-30px)] mr-[30px] py-[15px]"
-                      >
                         <li
-                            class="menu_title border-b-[1px] border-solid border-[#eee] mb-[10px] pb-[5px] flex items-center leading-[28px]"
+                            v-for="child in category.children"
+                            :key="child.id"
+                            class="flex items-center leading-[28px]"
                         >
-                          <a
-                              href="javascript:void(0)"
-                              class="transition-all duration-[0.3s] ease-in-out font-Poppins h-[auto] text-[#6c7fd8] text-[15px] font-medium tracking-[0.03rem] block py-[10px] leading-[22px] capitalize"
-                          >Phụ Kiện Âm Thanh</a
-                          >
-                        </li>
-                        <li class="flex items-center leading-[28px]">
-                          <a
+                          <router-link
                               class="transition-all duration-[0.3s] ease-in-out font-Poppins py-[10px] leading-[22px] text-[14px] font-normal tracking-[0.03rem] text-[#686e7d] hover:text-[#6c7fd8] capitalize"
-                          >Tai Nghe</a
-                          >
-                        </li>
-                        <li class="flex items-center leading-[28px]">
-                          <a
-                              class="transition-all duration-[0.3s] ease-in-out font-Poppins py-[10px] leading-[22px] text-[14px] font-normal tracking-[0.03rem] text-[#686e7d] hover:text-[#6c7fd8] capitalize"
-                          >Loa</a
-                          >
-                        </li>
-                        <li class="flex items-center leading-[28px]">
-                          <a
-                              class="transition-all duration-[0.3s] ease-in-out font-Poppins py-[10px] leading-[22px] text-[14px] font-normal tracking-[0.03rem] text-[#686e7d] hover:text-[#6c7fd8] capitalize"
-                          >Tai Nghe</a
-                          >
-                        </li>
-                        <li class="flex items-center leading-[28px]">
-                          <a
-                              class="transition-all duration-[0.3s] ease-in-out font-Poppins py-[10px] leading-[22px] text-[14px] font-normal tracking-[0.03rem] text-[#686e7d] hover:text-[#6c7fd8] capitalize"
-                          >Tai Nghe</a
-                          >
-                        </li>
-                        <li class="flex items-center leading-[28px]">
-                          <a
-                              class="transition-all duration-[0.3s] ease-in-out font-Poppins py-[10px] leading-[22px] text-[14px] font-normal tracking-[0.03rem] text-[#686e7d] hover:text-[#6c7fd8] capitalize"
-                          >Tai Nghe</a
-                          >
-                        </li>
-                      </ul>
-                      <ul
-                          class="mega-block w-[calc(25%-30px)] mr-[30px] py-[15px]"
-                      >
-                        <li
-                            class="menu_title border-b-[1px] border-solid border-[#eee] mb-[10px] pb-[5px] flex items-center leading-[28px]"
-                        >
-                          <a
-                              href="javascript:void(0)"
-                              class="transition-all duration-[0.3s] ease-in-out font-Poppins h-[auto] text-[#6c7fd8] text-[15px] font-medium tracking-[0.03rem] block py-[10px] leading-[22px] capitalize"
-                          >Phụ Kiện Mạng</a
-                          >
-                        </li>
-                        <li class="flex items-center leading-[28px]">
-                          <a
-                              class="transition-all duration-[0.3s] ease-in-out font-Poppins py-[10px] leading-[22px] text-[14px] font-normal tracking-[0.03rem] text-[#686e7d] hover:text-[#6c7fd8] capitalize"
-                          >Bộ Định Tuyến</a
-                          >
-                        </li>
-                        <li class="flex items-center leading-[28px]">
-                          <a
-                              class="transition-all duration-[0.3s] ease-in-out font-Poppins py-[10px] leading-[22px] text-[14px] font-normal tracking-[0.03rem] text-[#686e7d] hover:text-[#6c7fd8] capitalize"
-                          >Mở Rộng Băng Thông</a
-                          >
-                        </li>
-                        <li class="flex items-center leading-[28px]">
-                          <a
-                              class="transition-all duration-[0.3s] ease-in-out font-Poppins py-[10px] leading-[22px] text-[14px] font-normal tracking-[0.03rem] text-[#686e7d] hover:text-[#6c7fd8] capitalize"
-                          >Bộ Định Tuyến</a
-                          >
-                        </li>
-                        <li class="flex items-center leading-[28px]">
-                          <a
-                              class="transition-all duration-[0.3s] ease-in-out font-Poppins py-[10px] leading-[22px] text-[14px] font-normal tracking-[0.03rem] text-[#686e7d] hover:text-[#6c7fd8] capitalize"
-                          >Bộ Định Tuyến</a
-                          >
-                        </li>
-                        <li class="flex items-center leading-[28px]">
-                          <a
-                              class="transition-all duration-[0.3s] ease-in-out font-Poppins py-[10px] leading-[22px] text-[14px] font-normal tracking-[0.03rem] text-[#686e7d] hover:text-[#6c7fd8] capitalize"
-                          >Bộ Định Tuyến</a
-                          >
-                        </li>
-                      </ul>
-                      <ul
-                          class="mega-block w-[calc(25%-30px)] mr-[30px] py-[15px]"
-                      >
-                        <li
-                            class="menu_title border-b-[1px] border-solid border-[#eee] mb-[10px] pb-[5px] flex items-center leading-[28px]"
-                        >
-                          <a
-                              href="javascript:void(0)"
-                              class="transition-all duration-[0.3s] ease-in-out font-Poppins h-[auto] text-[#6c7fd8] text-[15px] font-medium tracking-[0.03rem] block py-[10px] leading-[22px] capitalize"
-                          >Phụ Kiện Gaming</a
-                          >
-                        </li>
-                        <li class="flex items-center leading-[28px]">
-                          <a
-                              class="transition-all duration-[0.3s] ease-in-out font-Poppins py-[10px] leading-[22px] text-[14px] font-normal tracking-[0.03rem] text-[#686e7d] hover:text-[#6c7fd8] capitalize"
-                          >Chuột</a
-                          >
-                        </li>
-                        <li class="flex items-center leading-[28px]">
-                          <a
-                              class="transition-all duration-[0.3s] ease-in-out font-Poppins py-[10px] leading-[22px] text-[14px] font-normal tracking-[0.03rem] text-[#686e7d] hover:text-[#6c7fd8] capitalize"
-                          >Tay Cầm Chơi Game</a
-                          >
-                        </li>
-                        <li class="flex items-center leading-[28px]">
-                          <a
-                              class="transition-all duration-[0.3s] ease-in-out font-Poppins py-[10px] leading-[22px] text-[14px] font-normal tracking-[0.03rem] text-[#686e7d] hover:text-[#6c7fd8] capitalize"
-                          >Bàn Phím</a
-                          >
-                        </li>
-                        <li class="flex items-center leading-[28px]">
-                          <a
-                              class="transition-all duration-[0.3s] ease-in-out font-Poppins py-[10px] leading-[22px] text-[14px] font-normal tracking-[0.03rem] text-[#686e7d] hover:text-[#6c7fd8] capitalize"
-                          >Bàn Phím</a
-                          >
-                        </li>
-                        <li class="flex items-center leading-[28px]">
-                          <a
-                              class="transition-all duration-[0.3s] ease-in-out font-Poppins py-[10px] leading-[22px] text-[14px] font-normal tracking-[0.03rem] text-[#686e7d] hover:text-[#6c7fd8] capitalize"
-                          >Bàn Phím</a
+                              :to="`/category/${child.id}/products`"
+                          >{{ child.name }}
+                          </router-link
                           >
                         </li>
                       </ul>
